@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import { LinkContainer } from "react-router-bootstrap";
-import { BsPencilSquare } from "react-icons/bs";
 import { useAppContext } from "../libs/contextLib";
 import { onError } from "../libs/errorLib";
-import { API } from "aws-amplify";
 import "./Home.css";
+import { API } from "aws-amplify";
+import { BsPencilSquare } from "react-icons/bs";
+import { LinkContainer } from "react-router-bootstrap";
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
   const { isAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     async function onLoad() {
       if (!isAuthenticated) {
@@ -27,11 +26,11 @@ export default function Home() {
     }
     onLoad();
   }, [isAuthenticated]);
-
+  
   function loadNotes() {
     return API.get("notes", "/notes");
   }
-
+  
   function renderNotesList(notes) {
     return (
       <>
@@ -57,12 +56,12 @@ export default function Home() {
       </>
     );
   }
-
+  
   function renderLander() {
     return (
       <div className="lander">
         <h1>Scratch</h1>
-        <p className="text-muted">A simple notetaking app</p>
+        <p className="text-muted">A simple note taking app</p>
       </div>
     );
   }

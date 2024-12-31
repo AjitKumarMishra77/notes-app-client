@@ -7,7 +7,7 @@ import { useAppContext } from "../libs/contextLib";
 import { useFormFields } from "../libs/hooksLib";
 import { onError } from "../libs/errorLib";
 import "./Login.css";
-
+import { Link } from "react-router-dom";
 export default function Login() {
   const history = useHistory();
   const { userHasAuthenticated } = useAppContext();
@@ -24,6 +24,7 @@ export default function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+
     try {
       await Auth.signIn(fields.email, fields.password);
       userHasAuthenticated(true);
@@ -54,6 +55,7 @@ export default function Login() {
             onChange={handleFieldChange}
           />
         </Form.Group>
+        <Link to="/login/reset" className="custom-link">Forgot password?</Link>
         <LoaderButton
           block
           size="lg"

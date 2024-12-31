@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
+import { useHistory } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import { useAppContext } from "../libs/contextLib";
 import { useFormFields } from "../libs/hooksLib";
 import { onError } from "../libs/errorLib";
-import { Auth } from "aws-amplify";
 import "./Signup.css";
+import { Auth } from "aws-amplify";
 
 export default function Signup() {
   const [fields, handleFieldChange] = useFormFields({
     email: "",
     password: "",
     confirmPassword: "",
-    confirmationCode: "",
+    confirmationCode: ""
   });
+
   const history = useHistory();
   const [newUser, setNewUser] = useState(null);
   const { userHasAuthenticated } = useAppContext();
@@ -38,16 +39,16 @@ export default function Signup() {
     try {
       const newUser = await Auth.signUp({
         username: fields.email,
-        password: fields.password,
+        password: fields.password
       });
-      setNewUser(newUser);
       setIsLoading(false);
+      setNewUser(newUser);
     } catch (e) {
-      onError(e.message || e);
+      onError(e);
       setIsLoading(false);
     }
   }
-
+  
   async function handleConfirmationSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
@@ -57,10 +58,11 @@ export default function Signup() {
       userHasAuthenticated(true);
       history.push("/");
     } catch (e) {
-      onError(e.message || e);
+      onError(e);
       setIsLoading(false);
     }
   }
+  
 
   function renderConfirmationForm() {
     return (
@@ -121,7 +123,8 @@ export default function Signup() {
           block
           size="lg"
           type="submit"
-          variant="success"
+          // variant="success"
+          style={{ backgroundColor: '#07fe2c', color: 'white' }}
           isLoading={isLoading}
           disabled={!validateForm()}
         >
